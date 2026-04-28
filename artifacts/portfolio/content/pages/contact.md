@@ -1,6 +1,7 @@
 ---
-heading: Email
-subheading: "Contact me "
+heading: Let’s Work Together
+subheading: Ready to bring your ideas to life? Reach out via the channels below
+  for commissions, collaborations, or business inquiries.
 email: sulaemonluqmon127@gmail.com
 available: true
 socials:
