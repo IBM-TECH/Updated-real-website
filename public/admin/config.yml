@@ -105,7 +105,6 @@ collections:
               - { label: "Year", name: "year", widget: "string" }
               - { label: "Title", name: "title", widget: "string" }
 
-  # ─── CATEGORIES ───────────────────────────────────────────────────────────────
   - name: "categories"
     label: "Portfolio Categories"
     label_singular: "Category"
@@ -118,14 +117,13 @@ collections:
       preview: false
     fields:
       - { label: "Category Name", name: "title", widget: "string", hint: "e.g. Character Art, Fan Art, Fursuit, etc." }
-      - { label: "Slug (URL key)", name: "slug", widget: "string", hint: "Lowercase, no spaces — e.g. character-art" }
+      - { label: "Slug (URL key)", name: "slug", widget: "string", hint: "Lowercase, no spaces e.g. character-art" }
       - { label: "Description", name: "description", widget: "text", required: false }
       - { label: "Cover Image", name: "coverImage", widget: "image", required: false }
       - { label: "Display Order", name: "order", widget: "number", default: 1, hint: "Lower numbers appear first" }
       - { label: "Visible", name: "visible", widget: "boolean", default: true }
 
-  # ─── PORTFOLIO ITEMS ──────────────────────────────────────────────────────────
-  - name: "portfolio"
+  - name: "portfolio_works"
     label: "Portfolio Works"
     label_singular: "Work"
     folder: "artifacts/portfolio/content/portfolio"
@@ -150,6 +148,58 @@ collections:
         name: "gallery"
         widget: "list"
         label_singular: "Image"
+        hint: "Upload as many images as you want for this work"
+        fields:
+          - { label: "Image", name: "image", widget: "image" }
+          - { label: "Caption (optional)", name: "caption", widget: "string", required: false }
+      - { label: "Description", name: "description", widget: "text", required: false }
+      - { label: "Featured", name: "featured", widget: "boolean", default: false, hint: "Show on homepage highlights" }
+      - { label: "Visible", name: "visible", widget: "boolean", default: true }
+      - { label: "Display Order", name: "order", widget: "number", default: 1 }
+
+  - name: "case_studies"
+    label: "Featured Case Studies (optional)"
+    folder: "artifacts/portfolio/content/portfolio"
+    create: true
+    delete: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    identifier_field: title
+    summary: "{{title}} - {{category}}"
+    sortable_fields: ["date", "order", "title"]
+    format: "json"
+    editor:
+      preview: false
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Slug (auto)", name: "slug", widget: "string", hint: "hidden" }
+      - { label: "Date", name: "date", widget: "datetime", default: "" }
+      - label: "Category"
+        name: "category"
+        widget: "relation"
+        collection: "categories"
+        search_fields: ["title", "slug"]
+        value_field: "slug"
+      - { label: "Medium", name: "medium", widget: "select", options: ["2d", "3d", "video", "mixed"], default: "2d" }
+      - { label: "Featured", name: "featured", widget: "boolean", default: false }
+      - { label: "Visible", name: "visible", widget: "boolean", default: true }
+      - { label: "Display Order", name: "order", widget: "number", default: 0 }
+      - { label: "Cover Image", name: "cover", widget: "image" }
+      - label: "Gallery"
+        name: "gallery"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Type", name: "type", widget: "select", options: ["image", "video", "youtube", "vimeo"], default: "image" }
+          - { label: "Image / Video File", name: "src", widget: "file", required: false }
+          - { label: "External URL", name: "url", widget: "string", required: false }
+          - { label: "Alt / Caption", name: "alt", widget: "string", required: false }
+      - { label: "Tools Used", name: "tools", widget: "list", required: false, default: [] }
+      - { label: "Tags", name: "tags", widget: "list", required: false, default: [] }
+      - { label: "Client", name: "client", widget: "string", required: false }
+      - { label: "Year", name: "year", widget: "string", required: false }
+      - { label: "External Link", name: "externalLink", widget: "string", required: false }
+      - { label: "Short Description", name: "excerpt", widget: "text", required: false }
+      - { label: "Body / Case Study", name: "body", widget: "markdown" }        label_singular: "Image"
         hint: "Upload as many images as you want for this work"
         fields:
           - { label: "Image", name: "image", widget: "image" }
