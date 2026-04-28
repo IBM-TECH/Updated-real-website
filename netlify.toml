@@ -1,0 +1,50 @@
+# Netlify build configuration for the Cyberpunk Artist Portfolio (standalone)
+#
+# When connected via Git, settings are auto-detected from this file:
+#   Build command:     npm install && npm run build
+#   Publish directory: dist
+
+[build]
+  base = ""
+  command = "npm install && npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Decap CMS admin must be served as a static page (handled BEFORE the SPA fallback)
+[[redirects]]
+  from = "/admin"
+  to = "/admin/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin/"
+  to = "/admin/index.html"
+  status = 200
+
+# SPA fallback so client-side routing works on every other route.
+# (Netlify Identity endpoints under /.netlify/* are handled automatically by
+# Netlify and must NOT be redirected manually.)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Long-cache hashed assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/uploads/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+# Decap CMS admin should never be cached aggressively
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    Cache-Control = "no-cache"
+    X-Frame-Options = "SAMEORIGIN"

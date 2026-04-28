@@ -1,0 +1,173 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# For local CMS development, run `npx decap-server` in another terminal
+# and visit http://localhost:8080/admin/ with `local_backend: true` enabled below.
+local_backend: true
+
+media_folder: "artifacts/portfolio/public/uploads"
+public_folder: "/uploads"
+
+site_url: https://example.netlify.app
+display_url: https://example.netlify.app
+logo_url: /uploads/logo.png
+
+publish_mode: simple
+
+collections:
+  - name: "settings"
+    label: "Site Settings"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - file: "artifacts/portfolio/content/settings/site.json"
+        label: "General Settings"
+        name: "site"
+        format: "json"
+        fields:
+          - { label: "Site Title", name: "siteTitle", widget: "string" }
+          - { label: "Artist Name", name: "artistName", widget: "string" }
+          - { label: "Tagline", name: "tagline", widget: "string" }
+          - { label: "Hero Subtitle", name: "heroSubtitle", widget: "text" }
+          - { label: "Logo", name: "logo", widget: "image", required: false }
+          - { label: "Favicon", name: "favicon", widget: "image", required: false }
+          - { label: "Hero Background Image", name: "heroBackground", widget: "image", required: false }
+          - { label: "Hero Background Video (mp4)", name: "heroVideo", widget: "file", required: false }
+          - { label: "SEO Description", name: "seoDescription", widget: "text" }
+          - { label: "SEO Keywords", name: "seoKeywords", widget: "string", required: false }
+          - { label: "OG Image", name: "ogImage", widget: "image", required: false }
+          - label: "Theme"
+            name: "theme"
+            widget: "object"
+            fields:
+              - { label: "Primary Neon (hex)", name: "primary", widget: "string", default: "#00f0ff" }
+              - { label: "Secondary Neon (hex)", name: "secondary", widget: "string", default: "#ff00e5" }
+              - { label: "Accent Neon (hex)", name: "accent", widget: "string", default: "#a855f7" }
+
+  - name: "contact"
+    label: "Contact & Social"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - file: "artifacts/portfolio/content/pages/contact.md"
+        label: "Contact Page"
+        name: "contact"
+        fields:
+          - { label: "Heading", name: "heading", widget: "string" }
+          - { label: "Subheading", name: "subheading", widget: "text" }
+          - { label: "Email", name: "email", widget: "string" }
+          - { label: "Phone", name: "phone", widget: "string", required: false }
+          - { label: "Location", name: "location", widget: "string", required: false }
+          - { label: "Available For Work", name: "available", widget: "boolean", default: true }
+          - { label: "Booking Form URL", name: "bookingUrl", widget: "string", required: false }
+          - label: "Social Links"
+            name: "socials"
+            widget: "list"
+            fields:
+              - { label: "Platform", name: "platform", widget: "select", options: ["instagram", "twitter", "x", "behance", "dribbble", "artstation", "youtube", "vimeo", "tiktok", "linkedin", "github", "twitch", "deviantart", "pinterest", "discord", "telegram", "fiverr", "email", "website"] }
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "URL", name: "url", widget: "string" }
+              - { label: "Handle (optional)", name: "handle", widget: "string", required: false }
+          - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "about"
+    label: "About Page"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - file: "artifacts/portfolio/content/pages/about.md"
+        label: "About Page"
+        name: "about"
+        fields:
+          - { label: "Heading", name: "heading", widget: "string" }
+          - { label: "Subheading", name: "subheading", widget: "text" }
+          - { label: "Portrait Image", name: "portrait", widget: "image", required: false }
+          - { label: "Years Experience", name: "yearsExperience", widget: "number", required: false, default: 5 }
+          - { label: "Projects Completed", name: "projectsCompleted", widget: "number", required: false, default: 100 }
+          - { label: "Happy Clients", name: "happyClients", widget: "number", required: false, default: 50 }
+          - { label: "Awards", name: "awards", widget: "number", required: false, default: 10 }
+          - label: "Skills"
+            name: "skills"
+            widget: "list"
+            fields:
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Category", name: "category", widget: "string", required: false }
+              - { label: "Level (0-100)", name: "level", widget: "number", min: 0, max: 100, default: 80 }
+              - { label: "Icon", name: "icon", widget: "string", hint: "lucide-react icon name (e.g., Brush, Cpu, Cube, Palette)", required: false }
+          - label: "Career Timeline"
+            name: "timeline"
+            widget: "list"
+            fields:
+              - { label: "Year", name: "year", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Organization", name: "organization", widget: "string", required: false }
+              - { label: "Description", name: "description", widget: "text" }
+              - { label: "Type", name: "type", widget: "select", options: ["work", "education", "award", "exhibition", "milestone"], default: "work" }
+          - { label: "Body (Bio)", name: "body", widget: "markdown" }
+
+  - name: "categories"
+    label: "Portfolio Categories"
+    folder: "artifacts/portfolio/content/categories"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: title
+    summary: "{{order}} — {{title}}"
+    sortable_fields: ["order", "title"]
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Slug", name: "slug", widget: "string", hint: "lowercase-with-dashes" }
+      - { label: "Description", name: "description", widget: "text", required: false }
+      - { label: "Cover Image", name: "cover", widget: "image", required: false }
+      - { label: "Icon", name: "icon", widget: "string", hint: "lucide-react icon name", required: false }
+      - { label: "Display Order", name: "order", widget: "number", default: 0 }
+      - { label: "Featured on Home", name: "featured", widget: "boolean", default: false }
+      - { label: "Visible", name: "visible", widget: "boolean", default: true }
+
+  - name: "portfolio"
+    label: "Portfolio Items"
+    folder: "artifacts/portfolio/content/portfolio"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    identifier_field: title
+    summary: "{{title}} — {{category}}{{#if featured}} ★{{/if}}"
+    sortable_fields: ["date", "order", "title"]
+    view_filters:
+      - label: "Featured"
+        field: featured
+        pattern: true
+      - label: "2D Art"
+        field: medium
+        pattern: "2d"
+      - label: "3D Art"
+        field: medium
+        pattern: "3d"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Slug", name: "slug", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime", default: "" }
+      - { label: "Category Slug", name: "category", widget: "relation", collection: "categories", search_fields: ["title", "slug"], value_field: "slug", display_fields: ["title"] }
+      - { label: "Medium", name: "medium", widget: "select", options: ["2d", "3d", "video", "mixed"], default: "2d" }
+      - { label: "Featured", name: "featured", widget: "boolean", default: false }
+      - { label: "Visible", name: "visible", widget: "boolean", default: true }
+      - { label: "Display Order", name: "order", widget: "number", default: 0 }
+      - { label: "Cover Image", name: "cover", widget: "image" }
+      - label: "Gallery"
+        name: "gallery"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Type", name: "type", widget: "select", options: ["image", "video", "youtube", "vimeo"], default: "image" }
+          - { label: "Image / Video File", name: "src", widget: "file", required: false, hint: "For type=image or type=video" }
+          - { label: "External URL (YouTube/Vimeo ID or full URL)", name: "url", widget: "string", required: false }
+          - { label: "Alt / Caption", name: "alt", widget: "string", required: false }
+      - { label: "Tools Used", name: "tools", widget: "list", required: false, default: [] }
+      - { label: "Tags", name: "tags", widget: "list", required: false, default: [] }
+      - { label: "Client", name: "client", widget: "string", required: false }
+      - { label: "Year", name: "year", widget: "string", required: false }
+      - { label: "External Link", name: "externalLink", widget: "string", required: false }
+      - { label: "Short Description", name: "excerpt", widget: "text", required: false }
+      - { label: "Body / Case Study", name: "body", widget: "markdown" }
