@@ -2,12 +2,8 @@ backend:
   name: git-gateway
   branch: main
 
-# For local CMS development, run `npx decap-server` in another terminal
-# and visit http://localhost:8080/admin/ with `local_backend: true` enabled below.
 local_backend: true
 
-# Editorial workflow keeps your edits as drafts until you click "Publish".
-# Save as much as you want — the live site will not change until you publish.
 publish_mode: editorial_workflow
 
 media_folder: "artifacts/portfolio/public/uploads"
@@ -108,47 +104,60 @@ collections:
             fields:
               - { label: "Year", name: "year", widget: "string" }
               - { label: "Title", name: "title", widget: "string" }
-              - { label: "Organization", name: "organization", widget: "string", required: false }
-              - { label: "Description", name: "description", widget: "text" }
-              - { label: "Type", name: "type", widget: "select", options: ["work", "education", "award", "exhibition", "milestone"], default: "work" }
-          - { label: "Body (Bio)", name: "body", widget: "markdown" }
 
-  # ──────────────────────────────────────────────────────────────────────────
-  # CATEGORIES
-  # 11 categories are pre-created. To add 100s of images to a category, open it
-  # and use the "Gallery" list — drop images, save as draft, repeat. The live
-  # site will not change until you click "Publish" at the top of the entry.
-  # ──────────────────────────────────────────────────────────────────────────
+  # ─── CATEGORIES ───────────────────────────────────────────────────────────────
   - name: "categories"
-    label: "Categories (add your art here)"
+    label: "Portfolio Categories"
+    label_singular: "Category"
     folder: "artifacts/portfolio/content/categories"
-    create: false
-    delete: false
+    create: true
+    delete: true
     slug: "{{slug}}"
-    identifier_field: title
-    summary: "{{title}}"
-    sortable_fields: ["order", "title"]
+    format: "json"
+    editor:
+      preview: false
+    fields:
+      - { label: "Category Name", name: "title", widget: "string", hint: "e.g. Character Art, Fan Art, Fursuit, etc." }
+      - { label: "Slug (URL key)", name: "slug", widget: "string", hint: "Lowercase, no spaces — e.g. character-art" }
+      - { label: "Description", name: "description", widget: "text", required: false }
+      - { label: "Cover Image", name: "coverImage", widget: "image", required: false }
+      - { label: "Display Order", name: "order", widget: "number", default: 1, hint: "Lower numbers appear first" }
+      - { label: "Visible", name: "visible", widget: "boolean", default: true }
+
+  # ─── PORTFOLIO ITEMS ──────────────────────────────────────────────────────────
+  - name: "portfolio"
+    label: "Portfolio Works"
+    label_singular: "Work"
+    folder: "artifacts/portfolio/content/portfolio"
+    create: true
+    delete: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    format: "json"
+    editor:
+      preview: false
     fields:
       - { label: "Title", name: "title", widget: "string" }
-      - { label: "Slug (do not change)", name: "slug", widget: "hidden" }
-      - { label: "Description", name: "description", widget: "text", required: false }
-      - { label: "Cover Image", name: "cover", widget: "image", required: false, hint: "Shown on the Portfolio overview page" }
-      - { label: "Icon", name: "icon", widget: "string", required: false, hint: "lucide-react icon name (optional)" }
-      - { label: "Display Order", name: "order", widget: "number", default: 0 }
-      - { label: "Featured on Home", name: "featured", widget: "boolean", default: false }
-      - { label: "Visible", name: "visible", widget: "boolean", default: true }
-      - label: "Gallery (drop images here — supports 100+)"
+      - label: "Category"
+        name: "category"
+        widget: "relation"
+        collection: "categories"
+        search_fields: ["title"]
+        value_field: "slug"
+        display_fields: ["title"]
+        hint: "Pick which category this work belongs to"
+      - { label: "Cover / Thumbnail Image", name: "coverImage", widget: "image" }
+      - label: "Image Gallery"
         name: "gallery"
         widget: "list"
-        required: false
-        summary: "{{fields.alt}}"
-        hint: "Click 'Add gallery' for each piece. For type=image use the Image field; for type=video upload an mp4; for YouTube/Vimeo paste the link."
+        label_singular: "Image"
+        hint: "Upload as many images as you want for this work"
         fields:
-          - { label: "Type", name: "type", widget: "select", options: ["image", "video", "youtube", "vimeo"], default: "image" }
-          - { label: "Image / Video File", name: "src", widget: "image", required: false, hint: "For type=image or type=video" }
-          - { label: "External URL (YouTube/Vimeo)", name: "url", widget: "string", required: false }
-          - { label: "Caption / Alt", name: "alt", widget: "string", required: false }
-
+          - { label: "Image", name: "image", widget: "image" }
+          - { label: "Caption (optional)", name: "caption", widget: "string", required: false }
+      - { label: "Description", name: "description", widget: "text", required: false }
+      - { label: "Featured", name: "featured", widget: "boolean", default: false, hint: "Show on homepage highlights" }
+      - { label: "Visible", name: "visible", widget: "boolean", default: true }
+      - { label: "Display Order", name: "order", widget: "number", default: 1 }
   # ──────────────────────────────────────────────────────────────────────────
   # OPTIONAL: dedicated case-study pages with their own URL, body, etc.
   # Most artists will only use Categories above. Use this only if you want a
