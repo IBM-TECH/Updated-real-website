@@ -1,18 +1,18 @@
 {
-  "siteTitle": "NEXUS // Hayden Vex — Digital Artist",
-  "artistName": "Hayden Vex",
-  "tagline": "2D · 3D · Motion",
-  "heroSubtitle": "Building neon-lit worlds, characters, and brand systems for studios that want to feel something. Available for commissions, collaborations, and full art direction engagements.",
-  "logo": "",
-  "favicon": "",
-  "heroBackground": "",
   "heroVideo": "",
-  "seoDescription": "Premium 2D & 3D digital artist portfolio of Hayden Vex — concept art, character design, environments, motion, and full art direction for film, games, and brands.",
-  "seoKeywords": "digital artist, 2d artist, 3d artist, concept art, character design, environments, motion graphics, cyberpunk art, art director",
   "ogImage": "",
+  "seoKeywords": "professional 2D and 3D artist portfolio",
+  "heroBackground": "/uploads/531955.gif",
   "theme": {
-    "primary": "#00f0ff",
-    "secondary": "#ff00e5",
-    "accent": "#a855f7"
-  }
+    "primary": "#00FFF7",
+    "secondary": "#7C3AED",
+    "accent": "#FF00FF"
+  },
+  "logo": "/uploads/sample-logo.png",
+  "tagline": "Unleashing Creativity Without Limits",
+  "siteTitle": "Peak achievers team ",
+  "heroSubtitle": "Specializing in 2D & 3D character design and custom artwork. Open for commissions—bringing your ideas to life with bold, high-quality visuals.",
+  "artistName": "Luqqss temmy ",
+  "favicon": "",
+  "seoDescription": "Explore a stunning artist portfolio featuring high-quality 2D and 3D artwork, digital illustrations, and creative designs. Discover unique visuals, animations, and commission-ready art by a passionate professional artist."
 }
