@@ -6,14 +6,16 @@ backend:
 # and visit http://localhost:8080/admin/ with `local_backend: true` enabled below.
 local_backend: true
 
+# Editorial workflow keeps your edits as drafts until you click "Publish".
+# Save as much as you want — the live site will not change until you publish.
+publish_mode: editorial_workflow
+
 media_folder: "artifacts/portfolio/public/uploads"
 public_folder: "/uploads"
 
 site_url: https://example.netlify.app
 display_url: https://example.netlify.app
 logo_url: /uploads/logo.png
-
-publish_mode: simple
 
 collections:
   - name: "settings"
@@ -67,7 +69,7 @@ collections:
             name: "socials"
             widget: "list"
             fields:
-              - { label: "Platform", name: "platform", widget: "select", options: ["instagram", "twitter", "x", "behance", "dribbble", "artstation", "youtube", "vimeo", "tiktok", "linkedin", "github", "twitch", "deviantart", "pinterest", "discord", "telegram", "fiverr", "email", "website"] }
+              - { label: "Platform", name: "platform", widget: "select", options: ["email", "discord", "telegram", "fiverr", "instagram", "twitter", "x", "behance", "dribbble", "artstation", "youtube", "vimeo", "tiktok", "linkedin", "github", "twitch", "deviantart", "pinterest", "website"] }
               - { label: "Label", name: "label", widget: "string" }
               - { label: "URL", name: "url", widget: "string" }
               - { label: "Handle (optional)", name: "handle", widget: "string", required: false }
@@ -93,6 +95,7 @@ collections:
           - label: "Skills"
             name: "skills"
             widget: "list"
+            required: false
             fields:
               - { label: "Name", name: "name", widget: "string" }
               - { label: "Category", name: "category", widget: "string", required: false }
@@ -101,6 +104,7 @@ collections:
           - label: "Career Timeline"
             name: "timeline"
             widget: "list"
+            required: false
             fields:
               - { label: "Year", name: "year", widget: "string" }
               - { label: "Title", name: "title", widget: "string" }
@@ -109,47 +113,60 @@ collections:
               - { label: "Type", name: "type", widget: "select", options: ["work", "education", "award", "exhibition", "milestone"], default: "work" }
           - { label: "Body (Bio)", name: "body", widget: "markdown" }
 
+  # ──────────────────────────────────────────────────────────────────────────
+  # CATEGORIES
+  # 11 categories are pre-created. To add 100s of images to a category, open it
+  # and use the "Gallery" list — drop images, save as draft, repeat. The live
+  # site will not change until you click "Publish" at the top of the entry.
+  # ──────────────────────────────────────────────────────────────────────────
   - name: "categories"
-    label: "Portfolio Categories"
+    label: "Categories (add your art here)"
     folder: "artifacts/portfolio/content/categories"
-    create: true
+    create: false
+    delete: false
     slug: "{{slug}}"
     identifier_field: title
-    summary: "{{order}} — {{title}}"
+    summary: "{{title}}"
     sortable_fields: ["order", "title"]
     fields:
       - { label: "Title", name: "title", widget: "string" }
-      - { label: "Slug", name: "slug", widget: "string", hint: "lowercase-with-dashes" }
+      - { label: "Slug (do not change)", name: "slug", widget: "hidden" }
       - { label: "Description", name: "description", widget: "text", required: false }
-      - { label: "Cover Image", name: "cover", widget: "image", required: false }
-      - { label: "Icon", name: "icon", widget: "string", hint: "lucide-react icon name", required: false }
+      - { label: "Cover Image", name: "cover", widget: "image", required: false, hint: "Shown on the Portfolio overview page" }
+      - { label: "Icon", name: "icon", widget: "string", required: false, hint: "lucide-react icon name (optional)" }
       - { label: "Display Order", name: "order", widget: "number", default: 0 }
       - { label: "Featured on Home", name: "featured", widget: "boolean", default: false }
       - { label: "Visible", name: "visible", widget: "boolean", default: true }
+      - label: "Gallery (drop images here — supports 100+)"
+        name: "gallery"
+        widget: "list"
+        required: false
+        summary: "{{fields.alt}}"
+        hint: "Click 'Add gallery' for each piece. For type=image use the Image field; for type=video upload an mp4; for YouTube/Vimeo paste the link."
+        fields:
+          - { label: "Type", name: "type", widget: "select", options: ["image", "video", "youtube", "vimeo"], default: "image" }
+          - { label: "Image / Video File", name: "src", widget: "image", required: false, hint: "For type=image or type=video" }
+          - { label: "External URL (YouTube/Vimeo)", name: "url", widget: "string", required: false }
+          - { label: "Caption / Alt", name: "alt", widget: "string", required: false }
 
+  # ──────────────────────────────────────────────────────────────────────────
+  # OPTIONAL: dedicated case-study pages with their own URL, body, etc.
+  # Most artists will only use Categories above. Use this only if you want a
+  # full page for a single piece (e.g. a commission write-up).
+  # ──────────────────────────────────────────────────────────────────────────
   - name: "portfolio"
-    label: "Portfolio Items"
+    label: "Featured Case Studies (optional)"
     folder: "artifacts/portfolio/content/portfolio"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     identifier_field: title
-    summary: "{{title}} — {{category}}{{#if featured}} ★{{/if}}"
+    summary: "{{title}} — {{category}}"
     sortable_fields: ["date", "order", "title"]
-    view_filters:
-      - label: "Featured"
-        field: featured
-        pattern: true
-      - label: "2D Art"
-        field: medium
-        pattern: "2d"
-      - label: "3D Art"
-        field: medium
-        pattern: "3d"
     fields:
       - { label: "Title", name: "title", widget: "string" }
-      - { label: "Slug", name: "slug", widget: "string" }
+      - { label: "Slug (auto)", name: "slug", widget: "hidden" }
       - { label: "Date", name: "date", widget: "datetime", default: "" }
-      - { label: "Category Slug", name: "category", widget: "relation", collection: "categories", search_fields: ["title", "slug"], value_field: "slug", display_fields: ["title"] }
+      - { label: "Category", name: "category", widget: "relation", collection: "categories", search_fields: ["title", "slug"], value_field: "slug", display_fields: ["title"] }
       - { label: "Medium", name: "medium", widget: "select", options: ["2d", "3d", "video", "mixed"], default: "2d" }
       - { label: "Featured", name: "featured", widget: "boolean", default: false }
       - { label: "Visible", name: "visible", widget: "boolean", default: true }
@@ -161,8 +178,8 @@ collections:
         required: false
         fields:
           - { label: "Type", name: "type", widget: "select", options: ["image", "video", "youtube", "vimeo"], default: "image" }
-          - { label: "Image / Video File", name: "src", widget: "file", required: false, hint: "For type=image or type=video" }
-          - { label: "External URL (YouTube/Vimeo ID or full URL)", name: "url", widget: "string", required: false }
+          - { label: "Image / Video File", name: "src", widget: "file", required: false }
+          - { label: "External URL", name: "url", widget: "string", required: false }
           - { label: "Alt / Caption", name: "alt", widget: "string", required: false }
       - { label: "Tools Used", name: "tools", widget: "list", required: false, default: [] }
       - { label: "Tags", name: "tags", widget: "list", required: false, default: [] }

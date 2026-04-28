@@ -1,10 +1,11 @@
 ---
 title: "Character Design"
 slug: "character-design"
-description: "Heroes, villains, and quiet weirdos for games, animation, and IP development."
+description: "Original heroes, villains, mascots, and creature design for games, film, and IP."
 cover: ""
 icon: "User"
-order: 2
+order: 4
 featured: true
 visible: true
+gallery: []
 ---

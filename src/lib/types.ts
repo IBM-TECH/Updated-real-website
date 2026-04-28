@@ -28,6 +28,7 @@ export interface Category {
   order: number;
   featured: boolean;
   visible: boolean;
+  gallery?: GalleryItem[];
 }
 
 export type Medium = "2d" | "3d" | "video" | "mixed";

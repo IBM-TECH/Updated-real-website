@@ -58,7 +58,10 @@ const contactRaw = (
 export const siteSettings: SiteSettings = siteJson as SiteSettings;
 
 export const categories: Category[] = Object.values(categoryFiles)
-  .map((raw) => parseFrontmatter<Category>(raw).data)
+  .map((raw) => {
+    const data = parseFrontmatter<Category>(raw).data;
+    return { ...data, gallery: data.gallery ?? [] };
+  })
   .filter((c) => c.visible !== false)
   .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
