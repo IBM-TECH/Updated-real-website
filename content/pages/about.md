@@ -6,7 +6,7 @@ portrait: ""
 yearsExperience: 8
 projectsCompleted: 100
 happyClients: 20
-awards: ""
+awards: 2
 skills:
   - name: Concept Art
     category: 2D
