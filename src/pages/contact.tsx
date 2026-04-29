@@ -33,6 +33,7 @@ export default function Contact() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* LEFT PANEL: CONTENT & PRIMARY BUTTONS */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -46,21 +47,25 @@ export default function Contact() {
             </div>
 
             <div className="space-y-4">
-              <a href={`mailto:${contact.email}`}>
-                <Button className="w-full bg-white text-black hover:bg-white/90 font-bold text-lg py-6 rounded-none no-default-hover-elevate">
-                  Email Me
+              <a href={`mailto:${contact.email}`} className="block">
+                <Button className="group relative w-full bg-white text-black hover:bg-white/90 font-bold text-lg py-6 rounded-none no-default-hover-elevate overflow-hidden transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-black/5 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out" />
+                  <span className="relative z-10">Email Me</span>
                 </Button>
               </a>
+              
               {contact.bookingUrl && (
-                <a href={contact.bookingUrl} target="_blank" rel="noreferrer">
-                  <Button variant="outline" className="w-full border-primary text-primary hover:bg-primary hover:text-black font-bold text-lg py-6 rounded-none no-default-hover-elevate shadow-[0_0_15px_rgba(0,240,255,0.1)] mt-4">
-                    Book an Intro Call
+                <a href={contact.bookingUrl} target="_blank" rel="noreferrer" className="block mt-4">
+                  <Button variant="outline" className="group relative w-full border-primary text-primary hover:bg-primary hover:text-black font-bold text-lg py-6 rounded-none no-default-hover-elevate shadow-[0_0_15px_rgba(0,240,255,0.1)] overflow-hidden transition-all duration-300">
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out" />
+                    <span className="relative z-10">Book an Intro Call</span>
                   </Button>
                 </a>
               )}
             </div>
           </motion.div>
 
+          {/* RIGHT PANEL: SOCIAL LINKS & DIRECT LINES */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -69,7 +74,8 @@ export default function Contact() {
           >
             <div className="glass-panel p-8 border-white/5 flex-1">
               <h3 className="font-mono text-sm uppercase tracking-widest text-primary mb-6 border-b border-white/10 pb-4">Digital Presence</h3>
-              <div className="grid grid-cols-2 gap-4">
+              
+              <div className="flex flex-col gap-3">
                 {contact.socials.map((social) => {
                   const Icon = getSocialIcon(social.platform);
                   return (
@@ -78,12 +84,30 @@ export default function Contact() {
                       href={social.url} 
                       target="_blank" 
                       rel="noreferrer"
-                      className="group flex items-center gap-3 p-3 bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 transition-colors"
+                      className="group relative flex items-center justify-between p-4 bg-white/5 hover:bg-white/10 border border-white/5 hover:border-primary/40 transition-all duration-300 overflow-hidden"
                     >
-                      <Icon className="w-5 h-5 text-muted-foreground group-hover:text-white transition-colors" />
-                      <div>
-                        <div className="text-sm font-bold text-white">{social.label}</div>
-                        {social.handle && <div className="text-xs font-mono text-muted-foreground">{social.handle}</div>}
+                      <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/10 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out" />
+                      
+                      <div className="flex items-center gap-4 relative z-10 w-full min-w-0">
+                        <div className="p-2 bg-white/5 group-hover:bg-primary/20 group-hover:text-primary transition-colors duration-300 flex-shrink-0">
+                          <Icon className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors duration-300" />
+                        </div>
+                        <div className="min-w-0 flex-1 pr-4">
+                          <div className="text-sm font-bold text-white group-hover:text-primary transition-colors duration-300">
+                            {social.label}
+                          </div>
+                          {social.handle && (
+                            <div className="text-xs font-mono text-muted-foreground truncate w-full">
+                              {social.handle}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="relative z-10 opacity-0 group-hover:opacity-100 transform -translate-x-4 group-hover:translate-x-0 transition-all duration-300 flex-shrink-0">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+                          <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
                       </div>
                     </a>
                   );
