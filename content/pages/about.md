@@ -70,8 +70,8 @@ timeline:
     type: education
 ---
 
-I'm Hayden Vex — a Brooklyn-based concept artist and art director with eight years of building **worlds that feel inhabited**. My work sits at the seam between hand-painted illustration and procedural 3D, leaning hard into neon, atmosphere, and the quiet architecture of imagined cities.
+I'm Luqqss Temmy — a concept artist and art director alongside a team with eight years of building worlds that feel inhabited. My work sits at the seam between hand-painted illustration and procedural 3D, leaning hard into neon, atmosphere, and the quiet architecture of imagined cities.
 
 I've shipped art for AAA games, indie passion projects, music videos, two feature films I can't talk about yet, and a small library of brand systems for companies who wanted to look like the future. I run a small remote team and take on a maximum of four director-level engagements per year.
 
-When I'm not painting, I'm in Houdini, on a long run, or arguing with my cat about the correct temperature of the studio.
+When I'm not painting,  on a long run, or arguing with my cat about the correct temperature of the studio.
