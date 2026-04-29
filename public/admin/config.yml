@@ -9,6 +9,13 @@ publish_mode: editorial_workflow
 media_folder: "public/uploads"
 public_folder: "/uploads"
 
+media_library:
+  name: cloudinary
+  config:
+    cloud_name: dc5yqjpl0
+    api_key: 149651761358326
+    upload_preset: Portfolio
+
 site_url: https://example.netlify.app
 display_url: https://example.netlify.app
 logo_url: /uploads/logo.png
@@ -115,12 +122,22 @@ collections:
     editor:
       preview: false
     fields:
-      - { label: "Category Name", name: "title", widget: "string", hint: "e.g. Character Art, Fan Art, Fursuit, etc." }
+      - { label: "Category Name", name: "title", widget: "string" }
       - { label: "Slug (URL key)", name: "slug", widget: "string", hint: "Lowercase, no spaces e.g. character-art" }
       - { label: "Description", name: "description", widget: "text", required: false }
       - { label: "Cover Image", name: "coverImage", widget: "image", required: false }
-      - { label: "Display Order", name: "order", widget: "number", default: 1, hint: "Lower numbers appear first" }
+      - { label: "Display Order", name: "order", widget: "number", default: 1 }
       - { label: "Visible", name: "visible", widget: "boolean", default: true }
+      - label: "Gallery Images"
+        name: "gallery"
+        widget: "list"
+        label_singular: "Image"
+        hint: "Add all your artwork images for this category here"
+        fields:
+          - { label: "Type", name: "type", widget: "select", options: ["image", "video", "youtube", "vimeo"], default: "image" }
+          - { label: "Image / Video File", name: "src", widget: "image", required: false }
+          - { label: "External URL (YouTube/Vimeo)", name: "url", widget: "string", required: false }
+          - { label: "Caption", name: "alt", widget: "string", required: false }
 
   - name: "portfolio_works"
     label: "Portfolio Works"
@@ -146,12 +163,11 @@ collections:
         name: "gallery"
         widget: "list"
         label_singular: "Image"
-        hint: "Upload as many images as you want for this work"
         fields:
           - { label: "Image", name: "image", widget: "image" }
           - { label: "Caption (optional)", name: "caption", widget: "string", required: false }
       - { label: "Description", name: "description", widget: "text", required: false }
-      - { label: "Featured", name: "featured", widget: "boolean", default: false, hint: "Show on homepage highlights" }
+      - { label: "Featured", name: "featured", widget: "boolean", default: false }
       - { label: "Visible", name: "visible", widget: "boolean", default: true }
       - { label: "Display Order", name: "order", widget: "number", default: 1 }
 
