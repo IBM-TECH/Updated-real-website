@@ -105,12 +105,15 @@ collections:
       - { label: "Cover Image", name: "coverImage", widget: "image", required: false }
       - { label: "Display Order", name: "order", widget: "number", default: 1 }
       - { label: "Visible", name: "visible", widget: "boolean", default: true }
-      - { label: "Gallery Images", name: "gallery", widget: "list", label_singular: "Image", fields: [
-          { label: "Type", name: "type", widget: "select", options: ["image", "video", "youtube", "vimeo"], default: "image" },
-          { label: "Image / Video File", name: "src", widget: "image", required: false },
-          { label: "External URL", name: "url", widget: "string", required: false },
-          { label: "Caption", name: "alt", widget: "string", required: false }
-        ]}
+      - label: "Gallery Images"
+        name: "gallery"
+        widget: "list"
+        label_singular: "Image"
+        fields:
+          - { label: "Type", name: "type", widget: "select", options: ["image", "video", "youtube", "vimeo"], default: "image" }
+          - { label: "Image / Video File", name: "src", widget: "image", required: false, multiple: true }
+          - { label: "External URL", name: "url", widget: "string", required: false }
+          - { label: "Caption", name: "alt", widget: "string", required: false }
 
   - name: "portfolio_works"
     label: "Portfolio Works"
@@ -125,10 +128,13 @@ collections:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Category", name: "category", widget: "relation", collection: "categories", search_fields: ["title"], value_field: "slug", display_fields: ["title"] }
       - { label: "Cover / Thumbnail Image", name: "coverImage", widget: "image" }
-      - { label: "Image Gallery", name: "gallery", widget: "list", label_singular: "Image", fields: [
-          { label: "Image", name: "image", widget: "image" },
-          { label: "Caption (optional)", name: "caption", widget: "string", required: false }
-        ]}
+      - label: "Image Gallery"
+        name: "gallery"
+        widget: "list"
+        label_singular: "Image"
+        fields:
+          - { label: "Image", name: "image", widget: "image", multiple: true }
+          - { label: "Caption (optional)", name: "caption", widget: "string", required: false }
       - { label: "Description", name: "description", widget: "text", required: false }
       - { label: "Featured", name: "featured", widget: "boolean", default: false }
       - { label: "Visible", name: "visible", widget: "boolean", default: true }
