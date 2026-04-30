@@ -2,17 +2,14 @@ backend:
   name: git-gateway
   branch: main
 
-local_backend: true
 publish_mode: editorial_workflow
 
-# The properties below fix the "Error loading CMS" screen
 media_folder: "public/uploads"
 public_folder: "/uploads"
 
-media_library:
-  name: git-gateway
+site_url: https://mooncake-604d16.netlify.app
+display_url: https://mooncake-604d16.netlify.app
 
-# Your full collections start here - do not change anything below this line
 collections:
   - name: "settings"
     label: "Site Settings"
@@ -36,11 +33,13 @@ collections:
           - { label: "SEO Description", name: "seoDescription", widget: "text" }
           - { label: "SEO Keywords", name: "seoKeywords", widget: "string", required: false }
           - { label: "OG Image", name: "ogImage", widget: "image", required: false }
-          - { label: "Theme", name: "theme", widget: "object", fields: [
-            { label: "Primary Neon (hex)", name: "primary", widget: "string", default: "#00f0ff" },
-            { label: "Secondary Neon (hex)", name: "secondary", widget: "string", default: "#ff00e5" },
-            { label: "Accent Neon (hex)", name: "accent", widget: "string", default: "#ad55f7" }
-          ]}
+          - label: "Theme"
+            name: "theme"
+            widget: "object"
+            fields:
+              - { label: "Primary Neon (hex)", name: "primary", widget: "string", default: "#00f0ff" }
+              - { label: "Secondary Neon (hex)", name: "secondary", widget: "string", default: "#ff00e5" }
+              - { label: "Accent Neon (hex)", name: "accent", widget: "string", default: "#a855f7" }
 
   - name: "contact"
     label: "Contact & Social"
@@ -59,13 +58,15 @@ collections:
           - { label: "Location", name: "location", widget: "string", required: false }
           - { label: "Available For Work", name: "available", widget: "boolean", default: true }
           - { label: "Booking Form URL", name: "bookingUrl", widget: "string", required: false }
-          - { label: "Social Links", name: "socials", widget: "list", fields: [
-            { label: "Platform", name: "platform", widget: "select", options: ["email", "discord", "telegram", "fiverr", "upwork", "twitter", "instagram", "github", "linkedin"] },
-            { label: "Label", name: "label", widget: "string" },
-            { label: "URL", name: "url", widget: "string" },
-            { label: "Handle (optional)", name: "handle", widget: "string", required: false },
-            { label: "Body", name: "body", widget: "markdown" }
-          ]}
+          - label: "Social Links"
+            name: "socials"
+            widget: "list"
+            fields:
+              - { label: "Platform", name: "platform", widget: "select", options: ["email", "discord", "telegram", "fiverr", "instagram", "twitter", "x", "behance", "dribbble", "artstation", "youtube", "vimeo", "tiktok", "linkedin", "github", "twitch", "deviantart", "pinterest", "website"] }
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "URL", name: "url", widget: "string" }
+              - { label: "Handle (optional)", name: "handle", widget: "string", required: false }
+          - { label: "Body", name: "body", widget: "markdown" }
 
   - name: "about"
     label: "About Page"
@@ -80,20 +81,26 @@ collections:
           - { label: "Heading", name: "heading", widget: "string" }
           - { label: "Subheading", name: "subheading", widget: "text" }
           - { label: "Portrait Image", name: "portrait", widget: "image", required: false }
-          - { label: "Years Experience", name: "yearsExperience", widget: "number", required: false, default: 1 }
-          - { label: "Projects Completed", name: "projectsCompleted", widget: "number", required: false, default: 1 }
+          - { label: "Years Experience", name: "yearsExperience", widget: "number", required: false, default: 5 }
+          - { label: "Projects Completed", name: "projectsCompleted", widget: "number", required: false, default: 100 }
           - { label: "Happy Clients", name: "happyClients", widget: "number", required: false, default: 50 }
           - { label: "Awards", name: "awards", widget: "number", required: false, default: 10 }
-          - { label: "Skills", name: "skills", widget: "list", required: false, fields: [
-            { label: "Name", name: "name", widget: "string" },
-            { label: "Category", name: "category", widget: "string", required: false },
-            { label: "Level (0-100)", name: "level", widget: "number", min: 0, max: 100, default: 80 },
-            { label: "Icon", name: "icon", widget: "string", hint: "lucide-react icon name" }
-          ]}
-          - { label: "Career Timeline", name: "timeline", widget: "list", required: false, fields: [
-            { label: "Year", name: "year", widget: "string" },
-            { label: "Title", name: "title", widget: "string" }
-          ]}
+          - label: "Skills"
+            name: "skills"
+            widget: "list"
+            required: false
+            fields:
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Category", name: "category", widget: "string", required: false }
+              - { label: "Level (0-100)", name: "level", widget: "number", min: 0, max: 100, default: 80 }
+              - { label: "Icon", name: "icon", widget: "string", required: false }
+          - label: "Career Timeline"
+            name: "timeline"
+            widget: "list"
+            required: false
+            fields:
+              - { label: "Year", name: "year", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
 
   - name: "categories"
     label: "Portfolio Categories"
@@ -106,17 +113,20 @@ collections:
       preview: false
     fields:
       - { label: "Category Name", name: "title", widget: "string" }
-      - { label: "Slug (URL key)", name: "slug", widget: "string", hint: "Lowercase, no spaces" }
+      - { label: "Slug (URL key)", name: "slug", widget: "string" }
       - { label: "Description", name: "description", widget: "text", required: false }
       - { label: "Cover Image", name: "coverImage", widget: "image", required: false }
       - { label: "Display Order", name: "order", widget: "number", default: 1 }
       - { label: "Visible", name: "visible", widget: "boolean", default: true }
-      - { label: "Gallery Images", name: "gallery", widget: "list", label_singular: "Image", hint: "Add artwork images here", fields: [
-          { label: "Type", name: "type", widget: "select", options: ["image", "video", "youtube", "vimeo"], default: "image" },
-          { label: "Image / Video File", name: "src", widget: "image", required: false },
-          { label: "External URL", name: "url", widget: "string", required: false },
-          { label: "Caption", name: "alt", widget: "string", required: false }
-        ]}
+      - label: "Gallery Images"
+        name: "gallery"
+        widget: "list"
+        label_singular: "Image"
+        fields:
+          - { label: "Type", name: "type", widget: "select", options: ["image", "video", "youtube", "vimeo"], default: "image" }
+          - { label: "Image / Video File", name: "src", widget: "image", required: false }
+          - { label: "External URL", name: "url", widget: "string", required: false }
+          - { label: "Caption", name: "alt", widget: "string", required: false }
 
   - name: "portfolio_works"
     label: "Portfolio Works"
@@ -129,48 +139,22 @@ collections:
       preview: false
     fields:
       - { label: "Title", name: "title", widget: "string" }
-      - { label: "Category", name: "category", widget: "relation", collection: "categories", search_fields: ["title"], value_field: "slug", display_fields: ["title"] }
-      - { label: "Cover / Thumbnail Image", name: "coverImage", widget: "image" }
-      - { label: "Image Gallery", name: "gallery", widget: "list", label_singular: "Image", fields: [
-          { label: "Image", name: "image", widget: "image" },
-          { label: "Caption (optional)", name: "caption", widget: "string", required: false }
-        ]}
+      - label: "Category"
+        name: "category"
+        widget: "relation"
+        collection: "categories"
+        search_fields: ["title"]
+        value_field: "slug"
+        display_fields: ["title"]
+      - { label: "Cover Image", name: "coverImage", widget: "image" }
+      - label: "Image Gallery"
+        name: "gallery"
+        widget: "list"
+        label_singular: "Image"
+        fields:
+          - { label: "Image", name: "image", widget: "image" }
+          - { label: "Caption (optional)", name: "caption", widget: "string", required: false }
       - { label: "Description", name: "description", widget: "text", required: false }
       - { label: "Featured", name: "featured", widget: "boolean", default: false }
       - { label: "Visible", name: "visible", widget: "boolean", default: true }
       - { label: "Display Order", name: "order", widget: "number", default: 1 }
-
-  - name: "case_studies"
-    label: "Featured Case Studies (optional)"
-    folder: "content/portfolio"
-    create: true
-    delete: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    identifier_field: title
-    summary: "{{title}} — {{category}}"
-    sortable_fields: ["date", "order", "title"]
-    editor:
-      preview: false
-    fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Slug (auto)", name: "slug", widget: "string", required: false }
-      - { label: "Date", name: "date", widget: "datetime", default: "" }
-      - { label: "Category", name: "category", widget: "relation", collection: "categories", search_fields: ["title"], value_field: "slug" }
-      - { label: "Medium", name: "medium", widget: "select", options: ["2d", "3d", "video", "mixed"], default: "2d" }
-      - { label: "Featured", name: "featured", widget: "boolean", default: false }
-      - { label: "Visible", name: "visible", widget: "boolean", default: true }
-      - { label: "Display Order", name: "order", widget: "number", default: 0 }
-      - { label: "Cover Image", name: "cover", widget: "image" }
-      - { label: "Gallery", name: "gallery", widget: "list", required: false, fields: [
-          { label: "Type", name: "type", widget: "select", options: ["image", "video", "youtube", "vimeo"], default: "image" },
-          { label: "Image / Video File", name: "src", widget: "file", required: false },
-          { label: "External URL", name: "url", widget: "string", required: false },
-          { label: "Alt / Caption", name: "alt", widget: "string", required: false }
-        ]}
-      - { label: "Tools Used", name: "tools", widget: "list", required: false, default: [] }
-      - { label: "Tags", name: "tags", widget: "list", required: false, default: [] }
-      - { label: "Client", name: "client", widget: "string", required: false }
-      - { label: "Year", name: "year", widget: "string", required: false }
-      - { label: "External Link", name: "externalLink", widget: "string", required: false }
-      - { label: "Short Description", name: "excerpt", widget: "text", required: false }
-      - { label: "Body / Case Study", name: "body", widget: "markdown" }
