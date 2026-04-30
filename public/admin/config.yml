@@ -111,6 +111,7 @@ collections:
         label_singular: "Image"
         fields:
           - { label: "Type", name: "type", widget: "select", options: ["image", "video", "youtube", "vimeo"], default: "image" }
+          # ENABLED MULTI-UPLOAD BELOW
           - { label: "Image / Video File", name: "src", widget: "image", required: false, multiple: true }
           - { label: "External URL", name: "url", widget: "string", required: false }
           - { label: "Caption", name: "alt", widget: "string", required: false }
@@ -133,6 +134,7 @@ collections:
         widget: "list"
         label_singular: "Image"
         fields:
+          # ENABLED MULTI-UPLOAD BELOW
           - { label: "Image", name: "image", widget: "image", multiple: true }
           - { label: "Caption (optional)", name: "caption", widget: "string", required: false }
       - { label: "Description", name: "description", widget: "text", required: false }
