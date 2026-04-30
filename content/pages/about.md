@@ -2,7 +2,7 @@
 heading: Digital Illustrator & Comic Artist
 subheading: Specializing in character design, sequential art, and vibrant
   digital storytelling.
-portrait: ""
+portrait: /uploads/517903.jpg
 yearsExperience: 8
 projectsCompleted: 100
 happyClients: 20
