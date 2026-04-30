@@ -4,11 +4,14 @@ backend:
 
 publish_mode: editorial_workflow
 
+media_library:
+  name: default
+
 media_folder: "public/uploads"
 public_folder: "/uploads"
 
-site_url: https://mooncake-604d16.netlify.app
-display_url: https://mooncake-604d16.netlify.app
+site_url: https://rvescent-pavlova-a7e764.netlify.app
+display_url: https://rvescent-pavlova-a7e764.netlify.app
 
 collections:
   - name: "settings"
