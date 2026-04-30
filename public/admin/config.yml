@@ -10,12 +10,9 @@ media_folder: "public/uploads"
 public_folder: "/uploads"
 
 media_library:
-  name: cloudinary
-  config:
-    cloud_name: dc5yqjpl0
-    api_key: 149651761358326
-    upload_preset: Portfolio
-
+media_library:
+  name: git-gateway
+  
 site_url: https://example.netlify.app
 display_url: https://example.netlify.app
 logo_url: /uploads/logo.png
