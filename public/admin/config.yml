@@ -10,12 +10,7 @@ media_folder: "public/uploads"
 public_folder: "/uploads"
 
 media_library:
-media_library:
   name: git-gateway
-  
-site_url: https://example.netlify.app
-display_url: https://example.netlify.app
-logo_url: /uploads/logo.png
 
 collections:
   - name: "settings"
