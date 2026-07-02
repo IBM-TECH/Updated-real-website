@@ -130,10 +130,8 @@ collections:
       - { label: "Visible", name: "visible", widget: "boolean", default: true }
       - label: "Gallery Images"
         name: "gallery"
-        widget: "list"
-        fields:
-          - { label: "Image", name: "src", widget: "image" }
-          - { label: "Caption", name: "alt", widget: "string", required: false }
+        widget: "image"
+        multiple: true
 
   - name: "portfolio_works"
     label: "Portfolio Works"
@@ -156,10 +154,8 @@ collections:
       - { label: "Cover / Thumbnail Image", name: "coverImage", widget: "image" }
       - label: "Image Gallery"
         name: "gallery"
-        widget: "list"
-        fields:
-          - { label: "Image", name: "image", widget: "image" }
-          - { label: "Caption (optional)", name: "caption", widget: "string", required: false }
+        widget: "image"
+        multiple: true
       - { label: "Description", name: "description", widget: "text", required: false }
       - { label: "Featured", name: "featured", widget: "boolean", default: false }
       - { label: "Visible", name: "visible", widget: "boolean", default: true }
