@@ -1,5 +1,6 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: IBM-TECH/Updated-real-website
   branch: main
 
 publish_mode: editorial_workflow
