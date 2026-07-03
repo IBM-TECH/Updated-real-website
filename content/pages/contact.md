@@ -21,7 +21,7 @@ socials:
     handle: Mile_temss
   - platform: fiverr
     label: Fiverr
-    url: https://fiverr.com/akinss2d
+    url: https://fiverr.com/akinss_2d
     handle: fiverr.com/akinss2d
 ---
 
