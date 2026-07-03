@@ -161,20 +161,3 @@ export default function Portfolio() {
     </div>
   );
 }
-
-          {hasMore && (
-            <div className="mt-16 flex justify-center">
-              <Button 
-                onClick={handleLoadMore}
-                variant="outline" 
-                className="border-primary/50 text-primary hover:bg-primary hover:text-black font-mono uppercase tracking-widest px-8 py-6 rounded-none no-default-hover-elevate shadow-[0_0_10px_rgba(0,240,255,0.2)]"
-              >
-                Load More
-              </Button>
-            </div>
-          )}
-        </>
-      )}
-    </div>
-  );
-}
