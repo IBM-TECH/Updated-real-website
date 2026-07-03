@@ -1,9 +1,7 @@
 import { useState } from "react";
-import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { categories, portfolioItems } from "@/lib/content";
+import { categories } from "@/lib/content";
 import { useDocumentMeta } from "@/hooks/use-document-meta";
-import { PortfolioCard } from "@/components/portfolio-card";
 import { Button } from "@/components/ui/button";
 import { getLucideIcon } from "@/components/icon-map";
 
@@ -12,12 +10,25 @@ const ITEMS_PER_PAGE = 12;
 export default function Portfolio() {
   useDocumentMeta("Work");
   const [filter, setFilter] = useState<string>("all");
-  const [mediumFilter, setMediumFilter] = useState<string>("all");
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
 
-  const filteredItems = portfolioItems.filter((item) => {
+  // Extract all images directly from categories to bypass "Works"
+  const allImages = categories.flatMap(cat => {
+    // @ts-ignore - bypassing strict types since gallery is dynamically added
+    const gallery = cat.gallery || [];
+    const images = Array.isArray(gallery) ? gallery : (gallery ? [gallery] : []);
+
+    return images.map((img, index) => ({
+      id: `${cat.slug}-${index}`,
+      title: `${cat.title} #${index + 1}`,
+      category: cat.slug,
+      categoryTitle: cat.title,
+      coverImage: img,
+    }));
+  });
+
+  const filteredItems = allImages.filter((item) => {
     if (filter !== "all" && item.category !== filter) return false;
-    if (mediumFilter !== "all" && item.medium !== mediumFilter) return false;
     return true;
   });
 
@@ -43,7 +54,7 @@ export default function Portfolio() {
       </motion.div>
 
       {/* Categories Grid (only show when 'all' is selected) */}
-      {filter === "all" && mediumFilter === "all" && visibleCount === ITEMS_PER_PAGE && (
+      {filter === "all" && visibleCount === ITEMS_PER_PAGE && (
         <div className="mb-20">
           <h2 className="text-2xl font-display font-bold text-white mb-8 flex items-center gap-4">
             Browse by Category
@@ -52,20 +63,24 @@ export default function Portfolio() {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
             {categories.map((cat, i) => {
               const Icon = getLucideIcon(cat.icon);
-              const count = portfolioItems.filter(p => p.category === cat.slug).length;
+              const count = allImages.filter(p => p.category === cat.slug).length;
               return (
-                <Link key={cat.slug} href={`/portfolio/${cat.slug}`}>
+                <div 
+                  key={cat.slug} 
+                  onClick={() => { setFilter(cat.slug); setVisibleCount(ITEMS_PER_PAGE); }}
+                  className="cursor-pointer"
+                >
                   <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: i * 0.05 }}
-                    className="glass-panel p-4 flex flex-col items-center justify-center text-center gap-3 aspect-square hover:bg-white/5 border-white/5 hover:border-primary/50 transition-colors group cursor-pointer"
+                    className="glass-panel p-4 flex flex-col items-center justify-center text-center gap-3 aspect-square hover:bg-white/5 border-white/5 hover:border-primary/50 transition-colors group"
                   >
                     <Icon className="w-8 h-8 text-primary/70 group-hover:text-primary transition-colors" />
                     <span className="font-display font-bold text-sm">{cat.title}</span>
                     <span className="font-mono text-xs text-muted-foreground">{count} Projects</span>
                   </motion.div>
-                </Link>
+                </div>
               );
             })}
           </div>
@@ -95,20 +110,6 @@ export default function Portfolio() {
             </Button>
           ))}
         </div>
-
-        <div className="flex flex-wrap gap-2">
-          {["all", "2d", "3d", "video", "mixed"].map(m => (
-            <Button 
-              key={m}
-              variant={mediumFilter === m ? "default" : "outline"}
-              size="sm"
-              className={mediumFilter === m ? "bg-secondary text-white hover:bg-secondary/90" : "border-white/10 hover:bg-white/5 text-xs font-mono uppercase"}
-              onClick={() => { setMediumFilter(m); setVisibleCount(ITEMS_PER_PAGE); }}
-            >
-              {m}
-            </Button>
-          ))}
-        </div>
       </div>
 
       {/* Grid */}
@@ -120,11 +121,46 @@ export default function Portfolio() {
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <AnimatePresence mode="popLayout">
-              {displayedItems.map((item, i) => (
-                <PortfolioCard key={item.slug} item={item} index={i} />
+              {displayedItems.map((item) => (
+                <motion.div
+                  key={item.id}
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.2 }}
+                  className="glass-panel overflow-hidden group relative aspect-[4/3] rounded-xl border border-white/10"
+                >
+                  <img
+                    src={item.coverImage}
+                    alt={item.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                    <h3 className="text-white font-display font-bold text-lg">{item.title}</h3>
+                    <span className="text-primary text-sm font-mono">{item.categoryTitle}</span>
+                  </div>
+                </motion.div>
               ))}
             </AnimatePresence>
           </div>
+
+          {hasMore && (
+            <div className="mt-16 flex justify-center">
+              <Button 
+                onClick={handleLoadMore}
+                variant="outline" 
+                className="border-primary/50 text-primary hover:bg-primary hover:text-black font-mono uppercase tracking-widest px-8 py-6 rounded-none no-default-hover-elevate shadow-[0_0_10px_rgba(0,240,255,0.2)]"
+              >
+                Load More
+              </Button>
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
 
           {hasMore && (
             <div className="mt-16 flex justify-center">
