@@ -39,21 +39,9 @@ const portfolioFiles = import.meta.glob<string>("../../content/portfolio/*.md", 
   eager: true,
 });
 
-const aboutRaw = (
-  import.meta.glob<string>("../../content/pages/about.md", {
-    query: "?raw",
-    import: "default",
-    eager: true,
-  }) as Record<string, string>
-)["../../content/pages/about.md"];
-
-const contactRaw = (
-  import.meta.glob<string>("../../content/pages/contact.md", {
-    query: "?raw",
-    import: "default",
-    eager: true,
-  }) as Record<string, string>
-)["../../content/pages/contact.md"];
+// ... (keep aboutRaw and contactRaw exactly as they were in your file)
+const aboutRaw = (import.meta.glob<string>("../../content/pages/about.md", { query: "?raw", import: "default", eager: true, }) as Record<string, string>)["../../content/pages/about.md"];
+const contactRaw = (import.meta.glob<string>("../../content/pages/contact.md", { query: "?raw", import: "default", eager: true, }) as Record<string, string>)["../../content/pages/contact.md"];
 
 export const siteSettings: SiteSettings = siteJson as SiteSettings;
 
@@ -65,29 +53,31 @@ export const categories: Category[] = Object.values(categoryFiles)
   .filter((c) => c.visible !== false)
   .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
-export const portfolioItems: PortfolioItem[] = Object.values(portfolioFiles)
+// NEW LOGIC: Combine file-based items + category images
+const filePortfolioItems: PortfolioItem[] = Object.values(portfolioFiles)
   .map((raw) => {
     const { data, content } = parseFrontmatter<Omit<PortfolioItem, "body" | "bodyHtml">>(raw);
-    return {
-      ...data,
-      gallery: data.gallery ?? [],
-      tools: data.tools ?? [],
-      tags: data.tags ?? [],
-      body: content,
-      bodyHtml: renderMarkdown(content),
-    } as PortfolioItem;
-  })
-  .filter((p) => p.visible !== false)
-  .sort((a, b) => {
-    const ao = a.order ?? 0;
-    const bo = b.order ?? 0;
-    if (ao !== bo) return ao - bo;
-    return new Date(b.date).getTime() - new Date(a.date).getTime();
+    return { ...data, gallery: data.gallery ?? [], tools: data.tools ?? [], tags: data.tags ?? [], body: content, bodyHtml: renderMarkdown(content) } as PortfolioItem;
   });
 
-export const featuredItems: PortfolioItem[] = portfolioItems.filter(
-  (p) => p.featured,
-);
+const categoryGalleryItems: PortfolioItem[] = categories.flatMap(cat => {
+    const gallery = Array.isArray(cat.gallery) ? cat.gallery : [];
+    return gallery.map((img, i) => ({
+        slug: `${cat.slug}-${i}`,
+        title: `${cat.title} ${i + 1}`,
+        category: cat.slug,
+        coverImage: img,
+        gallery: [img],
+        body: "", bodyHtml: "", date: new Date().toISOString(),
+        featured: false, visible: true, tools: [], tags: []
+    }));
+});
+
+export const portfolioItems: PortfolioItem[] = [...filePortfolioItems, ...categoryGalleryItems]
+  .filter((p) => p.visible !== false)
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+export const featuredItems: PortfolioItem[] = portfolioItems.filter((p) => p.featured);
 
 export function getCategory(slug: string): Category | undefined {
   return categories.find((c) => c.slug === slug);
@@ -101,23 +91,9 @@ export function getItem(slug: string): PortfolioItem | undefined {
   return portfolioItems.find((p) => p.slug === slug);
 }
 
+// ... (keep about and contact logic at the bottom exactly as it was)
 const aboutParsed = parseFrontmatter<Omit<AboutContent, "body" | "bodyHtml">>(aboutRaw);
-export const about: AboutContent = {
-  ...aboutParsed.data,
-  skills: aboutParsed.data.skills ?? [],
-  timeline: aboutParsed.data.timeline ?? [],
-  body: aboutParsed.content,
-  bodyHtml: renderMarkdown(aboutParsed.content),
-};
-
+export const about: AboutContent = { ...aboutParsed.data, skills: aboutParsed.data.skills ?? [], timeline: aboutParsed.data.timeline ?? [], body: aboutParsed.content, bodyHtml: renderMarkdown(aboutParsed.content), };
 const contactParsed = parseFrontmatter<Omit<ContactContent, "body" | "bodyHtml">>(contactRaw);
-export const contact: ContactContent = {
-  ...contactParsed.data,
-  socials: contactParsed.data.socials ?? [],
-  body: contactParsed.content,
-  bodyHtml: renderMarkdown(contactParsed.content),
-};
-
-export const allTags: string[] = Array.from(
-  new Set(portfolioItems.flatMap((p) => p.tags ?? [])),
-).sort();
+export const contact: ContactContent = { ...contactParsed.data, socials: contactParsed.data.socials ?? [], body: contactParsed.content, bodyHtml: renderMarkdown(contactParsed.content), };
+export const allTags: string[] = Array.from(new Set(portfolioItems.flatMap((p) => p.tags ?? []))).sort();
