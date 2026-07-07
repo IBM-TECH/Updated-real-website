@@ -32,7 +32,7 @@ export default function Contact() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
           {/* LEFT PANEL: CONTENT & PRIMARY BUTTONS */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -136,6 +136,30 @@ export default function Contact() {
             )}
           </motion.div>
         </div>
+
+        {/* SENJA REVIEWS SECTION */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mt-16 w-full"
+        >
+          <div className="text-center mb-8">
+            <h3 className="text-3xl font-display font-bold text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">Client Experiences</h3>
+            <p className="text-muted-foreground mt-2">See what others have to say about working together.</p>
+          </div>
+          
+          <div className="bg-white/5 border border-white/10 rounded-xl p-4 md:p-8 backdrop-blur-sm">
+            <div 
+              className="senja-embed" 
+              data-id="3de8294e-eb0e-4082-87c5-4f114992b823" 
+              data-mode="shadow" 
+              data-lazyload="false" 
+              style={{ display: "block", width: "100%" }}
+            />
+          </div>
+        </motion.div>
+
       </div>
     </div>
   );
