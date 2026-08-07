@@ -2,7 +2,7 @@
 heading: Digital Illustrator & Comic Artist
 subheading: Specializing in character design, sequential art, and vibrant
   digital storytelling.
-portrait: /uploads/517903.jpg
+portrait: /uploads/531955.gif
 yearsExperience: 8
 projectsCompleted: 100
 happyClients: 20
@@ -32,8 +32,8 @@ skills:
     category: 3D
     level: 89
     icon: Sun
-  - name: Motion Graphics
-    category: Motion
+  - name: Comic book
+    category: "Illustration "
     level: 80
     icon: Film
 timeline:
