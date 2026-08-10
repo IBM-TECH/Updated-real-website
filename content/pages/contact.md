@@ -21,8 +21,8 @@ socials:
     handle: Mile_temss
   - platform: fiverr
     label: Fiverr
-    url: https://fiverr.com/akinss_2d
-    handle: fiverr.com/akinss2d
+    url: https://fiverr.com/luqs_media
+    handle: fiverr.com/luqs_media
 ---
 
 Send a project brief, a mood, or a half-formed idea — I'll come back with timeline, budget, and a starting direction within one business day.
