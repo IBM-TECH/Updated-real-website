@@ -1,7 +1,7 @@
 ---
 title: Furry Art
 slug: furry-art
-description: Anthropomorphic character art, fursonas, and commissions.
+description: Anthropomorphic character art, fursonas,  stickers, badges, and commissions.
 coverImage: /uploads/543771.jpg
 order: 7
 visible: true
