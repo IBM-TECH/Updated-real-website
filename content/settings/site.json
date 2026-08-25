@@ -1,18 +1,18 @@
 {
-  "heroVideo": "",
-  "ogImage": "",
-  "seoKeywords": "professional 2D and 3D artist portfolio",
+  "siteTitle": "Peak achievers team",
+  "artistName": "Luqqss tem-my",
+  "tagline": "Unleashing Creativity Without Limits",
+  "heroSubtitle": "Specializing in 2D & 3D character design and custom artwork. Open for commissions—bringing your ideas to life with bold, high-quality visuals.",
+  "logo": "/uploads/sample-logo.png",
+  "favicon": "",
   "heroBackground": "",
+  "heroVideo": "",
+  "seoDescription": "Explore a stunning artist portfolio featuring high-quality 2D and 3D artwork, digital illustrations, and creative designs. Discover unique visuals, animations, and commission-ready art by a passionate professional artist.",
+  "seoKeywords": "professional 2D and 3D artist portfolio",
+  "ogImage": "",
   "theme": {
     "primary": "#00FFF7",
     "secondary": "#7C3AED",
     "accent": "#FF00FF"
-  },
-  "logo": "/uploads/sample-logo.png",
-  "tagline": "Unleashing Creativity Without Limits",
-  "siteTitle": "Peak achievers team ",
-  "heroSubtitle": "Specializing in 2D & 3D character design and custom artwork. Open for commissions—bringing your ideas to life with bold, high-quality visuals.",
-  "artistName": "Luqqss temmy ",
-  "favicon": "",
-  "seoDescription": "Explore a stunning artist portfolio featuring high-quality 2D and 3D artwork, digital illustrations, and creative designs. Discover unique visuals, animations, and commission-ready art by a passionate professional artist."
+  }
 }
